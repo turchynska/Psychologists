@@ -1,45 +1,49 @@
-import css from './LoginForm.module.css';
-import { Formik, Field, Form } from 'formik';
+import css from "./LoginFormModal.module.css";
+import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
-import { auth, sigInWithEmailAndPassword } from '../../firebase.js';
-import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { FiEye, FiEyeOff } from 'react-icons/fi'; 
+import { auth, signInWithEmailAndPassword } from "../../firebase.js"; 
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 const LoginFormModal = () => {
-    const [showPassword, setShowPAssword] = useState(false)ж
-    const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false); 
+  const navigate = useNavigate();
+
   const initialValues = {
     email: "",
     password: "",
   };
 
   const validationSchema = Yup.object({
-    email: Yup.string.email("Not valid email").required("Email is required"),
-    password: Yup.string
-      .min(8, "Password must be  at least 8 characters")
-      .max(25, "Password must be at maximum 25 characters")
+    email: Yup.string()
+      .email("Not a valid email")
+      .required("Email is required"),
+    password: Yup.string()
+      .min(8, "Password must be at least 8 characters")
+      .max(25, "Password must be at most 25 characters")
       .required("Password is required"),
   });
 
   const handleSubmit = async (values) => {
     try {
-      const userCredential = await sigInWithEmailAndPassword(
+      const userCredential = await signInWithEmailAndPassword(
+
         auth,
         values.email,
         values.password
       );
       const user = userCredential.user;
-        toast.success("You are logged in", user);
-        navigate("/home")
+      toast.success("You are logged in");
+      navigate("/home");
     } catch (err) {
-      toast.error("Something went wrong", err);
+      toast.error("Something went wrong: " + err.message);
     }
   };
+
   return (
     <div className={css.mainContainer}>
-      <ToastContainer />
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -78,11 +82,15 @@ const LoginFormModal = () => {
                 {errors.password && touched.password && (
                   <div className={css.error}>{errors.password}</div>
                 )}
-                          </div>
-                          <button type='button' className={css.togglePassword}
-                              onClick={() => setShowPAssword(!showPassword)}>
-                              {showPassword ? <FiEye/> : <FiEyeOff/>}
-                          </button>
+              </div>
+
+              <button
+                type="button"
+                className={css.togglePassword}
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FiEyeOff /> : <FiEye />}
+              </button>
 
               <button type="submit" className={css.submitButton}>
                 Log In

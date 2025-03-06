@@ -1,0 +1,9 @@
+:root{
+    --main: #191a15;
+    --text: rgba(25, 26, 21, 0.5);
+    --white: #fbfbfb;
+    --button:  rgba(249, 129, 223, 0.2);
+    --button-hover:  #f884d2;
+
+     --font-family: "Inter", sans-serif;
+}
