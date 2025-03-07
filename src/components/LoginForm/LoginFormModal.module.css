@@ -3,14 +3,6 @@ display: flex;
 flex-direction: column;
 }
 
-.containerForm{
-
-}
-
-.containerTitle{
-
-}
-
 .title{
 font-weight: 500;
 font-size: 40px;
@@ -18,6 +10,7 @@ line-height: 1.2;
 letter-spacing: -0.02em;
 color: var(--main);
 margin-bottom: 20px;
+text-align: start;
 }
 
 .text{
@@ -26,10 +19,13 @@ font-size: 16px;
 line-height: 1.25;
 color: var(--text);
 margin-bottom: 40px;
+text-align: start;
 } 
 
-.fieldContainer{
-
+.fieldContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .field{
@@ -43,37 +39,41 @@ margin-bottom: 18px;
 
 .error{
 color: var(--error);
+font-weight: 400;
+font-size: 16px;
+line-height: 1.25;
+text-align: start;
 }
 
 .passwordContainer{
   position: relative; 
   width: 438px;
+
 }
 
 .togglePassword {
   position: absolute;
-  right: 15px; 
-  top: 50%;
+  right: 12px;
+  top: 40%;
   transform: translateY(-50%);
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--main);
-  padding: 16px ;
-  font-size: 18px;
+  color: #2f3636;
+  font-size: 16px;
 }
 
-.submitButton{
-font-weight: 500;
-font-size: 16px;
-line-height: 1.25;
-letter-spacing: -0.01em;
-color: var(--white);
-border-radius: 30px;
-padding: 16px 196px;
-width: 438px;
+.submitButton {
+  font-weight: 500;
+  font-size: 16px;
+  color: white;
+  border-radius: 24px;
+  padding: 14px;
+  width: 438px;
 height: 52px;
-background: var(--button)
+  background: var(--button);
+  border: none;
+  cursor: pointer;
 }
 
 .submitButton:hover{
