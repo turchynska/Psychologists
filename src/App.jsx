@@ -6,7 +6,7 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LoginFormModal />} />
+        {/* <Route path="/" element={<LoginFormModal />} /> */}
       </Routes>
     </Router>
   );

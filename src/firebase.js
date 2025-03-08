@@ -16,4 +16,4 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 // Правильний експорт
-export { auth, signInWithEmailAndPassword };
+export { auth, signInWithEmailAndPassword, createUserWithEmailAndPassword };
