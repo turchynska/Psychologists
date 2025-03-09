@@ -1,5 +1,9 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth"; // Додано імпорт
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from "firebase/auth"; // Додано імпорт
 
 const firebaseConfig = {
   apiKey: "AIzaSyBuFAloML0-Zf7vPDIU2zssaM4C_HEfz74",
