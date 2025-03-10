@@ -1,23 +1,91 @@
 .header {
   border: 1px solid rgba(25, 26, 21, 0.1);
-  width: 100%;  /* Залишаємо ширину 100% */
-  max-width: 1440px;  /* максимальна ширина */
-  margin: 0 auto;  /* для вирівнювання */
+  width: 100%;  
+  max-width: 1440px;  
+  margin: 0 auto;  
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background: linear-gradient(to right, #f8f8f8, #f0f7f4);
 }
 
-.logo{
-width: 218px;
-height: 28px;
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+  gap: 5px;
 }
 
-.logoImg{
-box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+.logo span:first-child {
+  color: #e78be7;
+  text-shadow: 1px 1px 2px rgba(231, 139, 231, 0.5);
+  font-weight: bold;
 }
 
-.item{
-font-weight: 400;
-font-size: 16px;
-line-height: 1.25;
-letter-spacing: -0.01em;
-color: var(--text);
+.logo span:last-child {
+  color: #222;
+  font-weight: 700;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.linkContainer {
+  display: flex;
+  gap: 15px;
+}
+
+.link {
+  text-decoration: none;
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+  padding: 5px 10px;
+}
+
+.link:hover, .active {
+  color: #555;
+  border-bottom: 2px solid var(--button);
+}
+
+.authContainer {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.buttonContainerItem {
+  background: transparent;
+  border: 1px solid #555;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.registrationButton {
+  background: var(--button);
+  color: var(--white);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.registrationButton:hover {
+  background: var(--button-hover);
 }

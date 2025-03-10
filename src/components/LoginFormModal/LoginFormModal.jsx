@@ -43,10 +43,13 @@ const LoginFormModal = () => {
       toast.error("Something went wrong: " + err.message);
     }
   };
-
+  const handleClose = () => {
+    console.log("Закриття модалки");
+    setIsModalOpen(false);
+  };
   return (
     <>
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+      <Modal isOpen={isModalOpen} onClose={handleClose}>
         <div className={css.mainContainer}>
           <Formik
             initialValues={initialValues}
