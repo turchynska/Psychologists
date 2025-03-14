@@ -9,7 +9,7 @@
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(4px);
-
+  z-index: 1000;
 }
 
 .modalContent {
@@ -20,9 +20,8 @@
   width: 500px;
   position: relative;
   text-align: center;
+  z-index: 1001; 
 }
-
-
 
 .closeButton {
   position: absolute;
@@ -31,7 +30,5 @@
   background: none;
   border: none;
   cursor: pointer;
-}
-.closeButton:hover {
-  color: #000;
+  z-index: 1002; 
 }

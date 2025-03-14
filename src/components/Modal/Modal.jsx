@@ -12,7 +12,6 @@ const Modal = ({ onClose, children }) => {
  useEffect(() => {
    const handleKeyDown = (event) => {
      if (event.code === "Escape") {
-       console.log("Натиснули Escape"); 
        onClose();
      }
    };

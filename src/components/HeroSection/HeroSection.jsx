@@ -1,7 +1,8 @@
 import css from './HeroSection.module.css';
 import Header from '../Header/Header';
 import hero1x from '../../img/hero/hero1x.png'
-import Icon from '../Icon/Icon';
+
+import { GrCheckmark } from "react-icons/gr";
 
 const HeroSection = () => {
     return (
@@ -24,7 +25,7 @@ const HeroSection = () => {
             <div className={css.imageWrapper}>
               <img src={hero1x} alt="hero" className={css.heroImg} />
               <div className={css.cardContainer}>
-                <span className={css.checkIcon}>✔️</span>
+                <GrCheckmark className={css.checkIcon} width={30} height={30} />
                 <div>
                   <p className={css.textCard}>Experienced psychologists</p>
                   <strong className={css.textNum}>15,000</strong>

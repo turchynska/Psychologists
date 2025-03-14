@@ -55,6 +55,10 @@
   letter-spacing: -0.01em;
   color: #fbfbfb;
 }
+
+.btn:hover{
+  background: var(--button-hover);
+}
 .imageWrapper {
   position: relative;
 }
@@ -69,7 +73,7 @@
 width: 311px;
 height: 118px;
   border-radius: 10px;
-  gap: 10px;
+  gap: 16px;
   z-index: 10; 
 }
 

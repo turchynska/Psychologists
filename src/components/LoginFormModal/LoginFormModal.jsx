@@ -49,6 +49,7 @@ const LoginFormModal = () => {
   };
   return (
     <>
+      
       <Modal isOpen={isModalOpen} onClose={handleClose}>
         <div className={css.mainContainer}>
           <Formik

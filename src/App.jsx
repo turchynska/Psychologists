@@ -1,10 +1,14 @@
 import React from "react";
-// import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import HeroSection from "./components/HeroSection/HeroSection";
+import {  Route, Routes } from "react-router-dom";
+import HomePage from "./pages/HomePage/HomePage";
 
 const App = () => {
   return (
-<HeroSection/>
+ 
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+      </Routes>
+  
   );
 };
 
