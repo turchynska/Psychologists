@@ -44,7 +44,6 @@ const LoginFormModal = () => {
     }
   };
   const handleClose = () => {
-    console.log("Закриття модалки");
     setIsModalOpen(false);
   };
   return (
