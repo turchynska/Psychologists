@@ -2,6 +2,7 @@ import css from './PsychologistCard.module.css';
 import { AiFillStar, AiOutlineHeart } from "react-icons/ai";
 
 const PsychologistCard = ({ psychologist }) => {
+  if (!psychologist) return null;
     const { name,
         avatar_url,
         experience,
@@ -67,3 +68,4 @@ const PsychologistCard = ({ psychologist }) => {
       </>
     );
 }
+export default PsychologistCard;

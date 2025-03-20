@@ -1,0 +1,54 @@
+.containerList {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.filterBar {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 16px;
+}
+
+.filterButton {
+  background-color: #4caf50;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.filterButton:hover {
+  background-color: #43a047;
+}
+
+.psychologistList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.loadMore {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+  display: block;
+}
+
+.loadMore:hover {
+  background-color: #43a047;
+}
+
+.loadMore:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
