@@ -40,7 +40,7 @@ const LoginFormModal = () => {
       toast.success("You are logged in");
       navigate("/home");
     } catch (err) {
-      toast.error("Something went wrong: " + err.message);
+      toast.error(`Error fetching data: ${error.message}`);
     }
   };
   const handleClose = () => {

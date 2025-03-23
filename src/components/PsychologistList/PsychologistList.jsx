@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { getDatabase, ref, get, query, limitToFirst, startAfter } from "firebase/database";
+import { database } from "../../firebase";
+import {
+  getDatabase,
+  ref,
+  get,
+  query,
+  limitToFirst,
+  startAfter,
+} from "firebase/database"; 
 import PsychologistCard from "../PsychologistCard/PsychologistCard";
 import toast from "react-hot-toast";
 import css from './PsychologistList.module.css';
@@ -16,63 +24,66 @@ const PsychologistList = () => {
         fetchData();
     }, []);
 
-    const fetchData = async () => {
-        setLoading(true);
-        const db = getDatabase();
-        const psychologistRef = ref(db, 'psychologist');
+   const fetchData = async () => {
+     setLoading(true);
+     const db = getDatabase();
+     const psychologistRef = ref(db, "psychologists");
 
-        try {
-            const snapshot = await get(query(psychologistRef, limitToFirst(3)));
+     try {
+       const snapshot = await get(psychologistRef);
 
-            if (snapshot.exists()) {
-                const data = snapshot.val();
-                const formattedData = Object.keys(data).map((key) => ({
-                    id: key,
-                    ...data[key],
-                }));
+       if (snapshot.exists()) {
+         const data = snapshot.val();
+         const formattedData = Object.keys(data).map((key) => ({
+           id: key,
+           ...data[key],
+         }));
 
-                setPsychologist(formattedData);
-                setLastKey(Object.keys(data)[Object.keys(data).length - 1]);
-                setHasMore(Object.keys(data).length === 3);
-            } else {
-                setHasMore(false);
-            }
-        } catch (error) {
-            toast.error("Error fetching data:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
+         setPsychologist(formattedData);
+         setLastKey(Object.keys(data)[Object.keys(data).length - 1]); // Оновлюємо lastKey
+         setHasMore(true); // Якщо є більше даних для завантаження
+       } else {
+         console.log("No data found");
+         setHasMore(false);
+       }
+     } catch (error) {
+       console.error("Error fetching data:", error);
+     } finally {
+       setLoading(false);
+     }
+   };
 
-    const loadMore = async () => {
-        if (!lastKey) return;
-        setLoadingMore(true);;
+  const loadMore = async () => {
+    if (!lastKey) return;
+    setLoadingMore(true);
 
-        const db = getDatabase();
-        const psychologistRef = ref(db, 'psychologist');
+    const db = getDatabase();
+    const psychologistRef = ref(db, "psychologists");
 
-        try {
-            const snapshot = await get(query(psychologistRef, startAfter(lastKey), limitToFirst(3)));
+    try {
+      const snapshot = await get(
+        query(psychologistRef, startAfter(lastKey), limitToFirst(3))
+      );
 
-            if (snapshot.exists()) {
-                const data = snapshot.val();
-                const formattedData = Object.keys(data).map((key) => ({
-                    id: key,
-                    ...data[key],
-                }));
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        const formattedData = Object.keys(data).map((key) => ({
+          id: key,
+          ...data[key],
+        }));
 
-                setPsychologist((prev) => [...prev, ...formattedData]);
-                setLastKey(Object.keys(data)[Object.keys(data).length - 1]);
-                setHasMore(Object.keys(data).length === 3);
-            } else {
-                setHasMore(false);
-            }
-        } catch (error) {
-            toast.error('Error loading more data:', error)
-        } finally {
-            setLoadingMore(false);
-        }
-    };
+        setPsychologist((prev) => [...prev, ...formattedData]);
+        setLastKey(Object.keys(data)[Object.keys(data).length - 1]); // Оновлюємо lastKey
+        setHasMore(Object.keys(data).length === 3);
+      } else {
+        setHasMore(false);
+      }
+    } catch (error) {
+      toast.error(`Error fetching data: ${error.message}`);
+    } finally {
+      setLoadingMore(false);
+    }
+  };
 
     if (loading) {
         return <p>Loading...</p>
