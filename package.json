@@ -13,6 +13,8 @@
     "vite": "^6.2.0"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.6.1",
+    "axios": "^1.8.4",
     "clsx": "^2.1.1",
     "firebase": "^11.4.0",
     "formik": "^2.4.6",

@@ -1,15 +1,12 @@
 import { initializeApp } from "firebase/app";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-} from "firebase/auth";
-import { getDatabase } from "firebase/database"; 
+import { getAuth } from "firebase/auth";
+import { getDatabase } from "firebase/database";
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyBuFAloML0-Zf7vPDIU2zssaM4C_HEfz74",
   authDomain: "psychologists-81420.firebaseapp.com",
-  databaseURL: "https://psychologists-81420-default-rtdb.firebaseio.com", 
+  databaseURL: "https://psychologists-81420-default-rtdb.firebaseio.com",
   projectId: "psychologists-81420",
   storageBucket: "psychologists-81420.appspot.com",
   messagingSenderId: "36804762803",
@@ -18,12 +15,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 const auth = getAuth(app);
-const database = getDatabase(app); 
 
-export {
-  auth,
-  database,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-};
+export { db, auth };
