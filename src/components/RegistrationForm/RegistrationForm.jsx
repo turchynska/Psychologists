@@ -1,5 +1,5 @@
 import css from './RegistrationForm.module.css';
-import { auth, createUserWithEmailAndPassword } from "../../firebase.js";
+import { registerUser } from "../../redux/auth/operations.js";
 import Modal from '../Modal/Modal.jsx';
 import { useState } from 'react';
 import toast from "react-hot-toast";
