@@ -1,20 +1,23 @@
-import css from './RegistrationForm.module.css';
+import css from "./RegistrationForm.module.css";
 import { registerUser } from "../../redux/auth/operations.js";
-import Modal from '../Modal/Modal.jsx';
-import { useState } from 'react';
+import Modal from "../Modal/Modal.jsx";
+import { useState } from "react";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
 import * as Yup from "yup";
+import { Loader } from "../Loader/Loader.jsx";
 import { useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { Field, Formik, Form } from 'formik';
-
+import { Field, Formik, Form } from "formik";
 
 const RegistrationForm = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const initialValue = {
+  const initialValues = {
     name: "",
     email: "",
     password: "",
@@ -22,30 +25,30 @@ const RegistrationForm = () => {
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Name is required"),
-
     email: Yup.string()
       .email("Not a valid email")
       .required("Email is required"),
-
     password: Yup.string()
       .min(8, "Password must be at least 8 characters")
       .max(25, "Password must be at most 25 characters")
       .required("Password is required"),
   });
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, { resetForm, setSubmitting }) => {
+    setLoading(true);
     try {
-      const { email, password } = values;
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
-      toast.success("You are registered");
+      await validationSchema.validate(values, { abortEarly: false });
+      await dispatch(registerUser(values)).unwrap();
+
+      toast.success("You are registered!");
+      resetForm();
+      setIsModalOpen(false);
       navigate("/home");
     } catch (error) {
       toast.error("Something went wrong: " + error.message);
+    } finally {
+      setLoading(false);
+      setSubmitting(false);
     }
   };
 
@@ -58,15 +61,16 @@ const RegistrationForm = () => {
             <p className={css.text}>
               Thank you for your interest in our platform! In order to register,
               we need some information. Please provide us with the following
-              information.
+              details.
             </p>
           </div>
+
           <Formik
-            initialValues={initialValue}
+            initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            {({ errors, touched }) => (
+            {({ errors, touched, isSubmitting }) => (
               <Form>
                 <div className={css.fieldContainer}>
                   <Field
@@ -88,6 +92,7 @@ const RegistrationForm = () => {
                     <div className={css.error}>{errors.email}</div>
                   )}
                 </div>
+
                 <div className={css.passwordContainer}>
                   <Field
                     type={showPassword ? "text" : "password"}
@@ -106,8 +111,15 @@ const RegistrationForm = () => {
                     {showPassword ? <FiEyeOff /> : <FiEye />}
                   </button>
                 </div>
-                <button type="submit" className={css.submitButton}>
-                  Sign Up
+
+                {loading && <Loader />}
+
+                <button
+                  type="submit"
+                  className={css.submitButton}
+                  disabled={isSubmitting || loading}
+                >
+                  {isSubmitting || loading ? "Signing up..." : "Sign Up"}
                 </button>
               </Form>
             )}

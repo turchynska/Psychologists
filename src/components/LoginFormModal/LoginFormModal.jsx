@@ -1,7 +1,8 @@
 import css from "./LoginFormModal.module.css";
 import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
-import { auth, signInWithEmailAndPassword } from "../../firebase.js"; 
+import { loginUser } from "../../redux/auth/operations.js";
+import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -10,7 +11,8 @@ import Modal from "../Modal/Modal.jsx";
 
 const LoginFormModal = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); 
+  const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const initialValues = {
@@ -28,27 +30,28 @@ const LoginFormModal = () => {
       .required("Password is required"),
   });
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, { resetForm, setSubmitting }) => {
     try {
-      const userCredential = await signInWithEmailAndPassword(
+      await validationSchema.validate(values, { abortEarly: false });
+      await dispatch(loginUser(values)).unwrap();
 
-        auth,
-        values.email,
-        values.password
-      );
-      const user = userCredential.user;
       toast.success("You are logged in");
+      resetForm();
+      setIsModalOpen(false);
       navigate("/home");
     } catch (err) {
-      toast.error(`Error fetching data: ${error.message}`);
+      toast.error(`Error fetching data: ${err.message}`);
+    } finally {
+      setSubmitting(false);
     }
   };
+
   const handleClose = () => {
     setIsModalOpen(false);
   };
+
   return (
     <>
-      
       <Modal isOpen={isModalOpen} onClose={handleClose}>
         <div className={css.mainContainer}>
           <Formik
@@ -56,7 +59,7 @@ const LoginFormModal = () => {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            {({ errors, touched }) => (
+            {({ errors, touched, isSubmitting }) => (
               <Form>
                 <div className={css.containerForm}>
                   <div className={css.containerTitle}>
@@ -98,8 +101,13 @@ const LoginFormModal = () => {
                       {showPassword ? <FiEyeOff /> : <FiEye />}
                     </button>
                   </div>
-                  <button type="submit" className={css.submitButton}>
-                    Log In
+
+                  <button
+                    type="submit"
+                    className={css.submitButton}
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Logging in..." : "Log In"}
                   </button>
                 </div>
               </Form>
@@ -109,9 +117,6 @@ const LoginFormModal = () => {
       </Modal>
     </>
   );
-      
 };
 
 export default LoginFormModal;
-
-

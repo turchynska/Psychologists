@@ -8,10 +8,15 @@ export const fetchPsychologistsInfo = createAsyncThunk(
   "psychologists/fetchAll",
   async ({ limit = 4, startKey = null }, thunkAPI) => {
     try {
-      let url = `/.json?orderBy="id"&limitToFirst=${limit + 1}`;
+      const state = thunkAPI.getState();
+      const token = state.auth.token; // Якщо використовуєш аутентифікацію
 
+      let url = `/.json?orderBy="id"&limitToFirst=${limit + 1}`;
       if (startKey) {
         url += `&startAt="${startKey}"`;
+      }
+      if (token) {
+        url += `&auth=${token}`;
       }
 
       const response = await axios.get(url);
@@ -35,7 +40,6 @@ export const fetchPsychologistsInfo = createAsyncThunk(
 
       return { items: filteredItems, lastKey };
     } catch (error) {
-      //   error.status === 404 && toast.error("Not found");
       return thunkAPI.rejectWithValue(error.message);
     }
   }
