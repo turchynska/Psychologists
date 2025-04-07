@@ -9,8 +9,7 @@ import { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import Modal from "../Modal/Modal.jsx";
 
-const LoginFormModal = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const LoginFormModal = ({ isOpen, onClose }) => {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,8 +36,8 @@ const LoginFormModal = () => {
 
       toast.success("You are logged in");
       resetForm();
-      setIsModalOpen(false);
-      navigate("/home");
+      onClose(); // Закриває модалку після успішного входу
+      navigate("/"); // Перенаправляє на домашню сторінку
     } catch (err) {
       toast.error(`Error fetching data: ${err.message}`);
     } finally {
@@ -46,13 +45,10 @@ const LoginFormModal = () => {
     }
   };
 
-  const handleClose = () => {
-    setIsModalOpen(false);
-  };
-
   return (
     <>
-      <Modal isOpen={isModalOpen} onClose={handleClose}>
+      {/* Модалка для логіну */}
+      <Modal isOpen={isOpen} onClose={onClose}>
         <div className={css.mainContainer}>
           <Formik
             initialValues={initialValues}

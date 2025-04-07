@@ -1,25 +1,27 @@
+
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { auth } from "../../database/firebaseConfig.js"; 
 
 axios.defaults.baseURL =
-  "https://psychologists-81420-default-rtdb.firebaseio.com";
+  "https://psychologists-81420-default-rtdb.firebaseio.com/";
 
 export const fetchPsychologistsInfo = createAsyncThunk(
   "psychologists/fetchAll",
   async ({ limit = 4, startKey = null }, thunkAPI) => {
     try {
-      const state = thunkAPI.getState();
-      const token = state.auth.token; // Якщо використовуєш аутентифікацію
+      const user = auth.currentUser;
+      const token = user ? await user.getIdToken() : null;
 
-      let url = `/.json?orderBy="id"&limitToFirst=${limit + 1}`;
-      if (startKey) {
-        url += `&startAt="${startKey}"`;
-      }
-      if (token) {
-        url += `&auth=${token}`;
-      }
+      const params = {
+        orderBy: '"id"',
+        limitToFirst: limit + 1,
+        ...(startKey && { startAt: `"${startKey}"` }),
+        ...(token && { auth: token }),
+      };
 
-      const response = await axios.get(url);
+      const response = await axios.get("/.json", { params });
+
       if (!response.data) return { items: [], lastKey: null };
 
       const psychologists = response.data;
@@ -34,9 +36,6 @@ export const fetchPsychologistsInfo = createAsyncThunk(
 
       const lastKey =
         filteredKeys.length > 0 ? filteredKeys[filteredKeys.length - 1] : null;
-      if (filteredItems.length === 0) {
-        return { items: [], lastKey: null };
-      }
 
       return { items: filteredItems, lastKey };
     } catch (error) {
