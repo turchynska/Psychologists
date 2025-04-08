@@ -5,13 +5,11 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
-import { Loader } from "../Loader/Loader.jsx";
 import { useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Field, Formik, Form } from "formik";
 
-const RegistrationForm = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const RegistrationForm = ({isOpen, onClose}) => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -40,12 +38,14 @@ const RegistrationForm = () => {
       await validationSchema.validate(values, { abortEarly: false });
       await dispatch(registerUser(values)).unwrap();
 
+       console.log("Register success:", response);
+
       toast.success("You are registered!");
       resetForm();
-      setIsModalOpen(false);
-      navigate("/home");
+      onClose();
+      navigate("/");
     } catch (error) {
-      toast.error("Something went wrong: " + error.message);
+      toast.error(error.message || "Registration failed");
     } finally {
       setLoading(false);
       setSubmitting(false);
@@ -54,7 +54,7 @@ const RegistrationForm = () => {
 
   return (
     <>
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+      <Modal isOpen={isOpen} onClose={onClose}>
         <div className={css.mainContainer}>
           <div className={css.headerContainer}>
             <h3 className={css.title}>Registration</h3>
@@ -112,7 +112,7 @@ const RegistrationForm = () => {
                   </button>
                 </div>
 
-                {loading && <Loader />}
+              
 
                 <button
                   type="submit"

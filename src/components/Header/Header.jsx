@@ -8,23 +8,23 @@ import css from "./Header.module.css";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false); // Стан для відкриття модалки
-  const [isRegistrationModal, setIsRegistrationModal] = useState(false); // Визначаємо, чи відкрита реєстраційна модалка
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRegistrationModal, setIsRegistrationModal] = useState(false);
 
-  // Відкриття модалки для входу
   const handleOpenLogin = () => {
-    setIsRegistrationModal(false); // Відключаємо реєстрацію
-    setIsModalOpen(true); // Відкриваємо модалку для логіну
+    setIsRegistrationModal(false);
+    setIsModalOpen(true);
   };
 
-  // Відкриття модалки для реєстрації
   const handleOpenRegistration = () => {
-    setIsRegistrationModal(true); // Включаємо реєстрацію
-    setIsModalOpen(true); // Відкриваємо модалку для реєстрації
+    setIsRegistrationModal(true);
+    setIsModalOpen(true);
   };
 
-  // Закриття модалки
-  const handleCloseModal = () => setIsModalOpen(false);
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setIsRegistrationModal(false);
+  };
 
   const activeClass = ({ isActive }) => clsx(css.link, isActive && css.active);
 
@@ -54,7 +54,7 @@ const Header = () => {
                 <span>Welcome, User</span>{" "}
                 <button
                   className={css.buttonContainerItem}
-                  onClick={handleOpenLogin}
+                  onClick={() => setIsLoggedIn(false)}
                 >
                   Log out
                 </button>
@@ -79,7 +79,7 @@ const Header = () => {
         </nav>
       </header>
 
-      {/* Відкриття відповідної модалки в залежності від того, що вибрав користувач */}
+      {/* Модалки */}
       {isModalOpen && !isRegistrationModal && (
         <LoginFormModal isOpen={isModalOpen} onClose={handleCloseModal} />
       )}

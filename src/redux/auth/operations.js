@@ -10,7 +10,6 @@ import { auth, db } from "../../database/firebaseConfig";
 import { ref, set } from "firebase/database";
 import toast from "react-hot-toast";
 import { clearUser, setUser } from "./authSlice";
-
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async (formData, { rejectWithValue }) => {
@@ -35,7 +34,7 @@ export const registerUser = createAsyncThunk(
         token: await user.getIdToken(),
       };
     } catch (error) {
-      toast.error(error);
+      toast.error(error.message || "Registration failed");
       return rejectWithValue(error.message);
     }
   }
