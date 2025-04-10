@@ -17,7 +17,7 @@ const Header = () => {
   };
 
   const handleOpenRegistration = () => {
-    setIsRegistrationModal(true);
+    setIsRegistrationModal(false);
     setIsModalOpen(true);
   };
 
