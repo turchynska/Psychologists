@@ -2,12 +2,17 @@ import Logo from "../Logo/Logo";
 import LoginFormModal from "../LoginFormModal/LoginFormModal";
 import RegistrationForm from "../RegistrationForm/RegistrationForm";
 import { NavLink } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
+import { logout } from "../../redux/auth/operations.js";
 import clsx from "clsx";
 import css from "./Header.module.css";
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const user = useSelector((state) => state.auth.user);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const dispatch = useDispatch();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRegistrationModal, setIsRegistrationModal] = useState(false);
 
@@ -17,7 +22,7 @@ const Header = () => {
   };
 
   const handleOpenRegistration = () => {
-    setIsRegistrationModal(false);
+    setIsRegistrationModal(true); // ✅ тут була помилка — не вмикалося реєстраційне вікно
     setIsModalOpen(true);
   };
 
@@ -25,6 +30,17 @@ const Header = () => {
     setIsModalOpen(false);
     setIsRegistrationModal(false);
   };
+
+const handleLogout = () => {
+  dispatch(logout())
+    .unwrap()
+    .then(() => {
+      navigate("/"); // 🔁 перенаправляє на головну (або на будь-який потрібний маршрут)
+    })
+    .catch((error) => {
+      toast.error("Logout failed");
+    });
+};
 
   const activeClass = ({ isActive }) => clsx(css.link, isActive && css.active);
 
@@ -51,10 +67,10 @@ const Header = () => {
           <div className={css.authContainer}>
             {isLoggedIn ? (
               <div className={css.buttonContainer}>
-                <span>Welcome, User</span>{" "}
+                <span>Welcome, {user.name || "User"}</span>
                 <button
                   className={css.buttonContainerItem}
-                  onClick={() => setIsLoggedIn(false)}
+                  onClick={handleLogout}
                 >
                   Log out
                 </button>
@@ -79,12 +95,14 @@ const Header = () => {
         </nav>
       </header>
 
-      {/* Модалки */}
       {isModalOpen && !isRegistrationModal && (
         <LoginFormModal isOpen={isModalOpen} onClose={handleCloseModal} />
       )}
       {isModalOpen && isRegistrationModal && (
-        <RegistrationForm isOpen={isModalOpen} onClose={handleCloseModal} />
+        <RegistrationForm
+          isOpen={isModalOpen}
+          onClose={handleCloseModal} // Pass handleCloseModal instead of setModalOpen
+        />
       )}
     </div>
   );
