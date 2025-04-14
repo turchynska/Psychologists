@@ -34,7 +34,7 @@ const PsychologistList = () => {
         {psychologists?.length > 0 ? (
           psychologists.map((psychologist) => (
             <PsychologistCard
-              key={psychologist.id}
+              key={psychologist._key}
               psychologist={psychologist}
             />
           ))

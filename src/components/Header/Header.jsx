@@ -22,7 +22,7 @@ const Header = () => {
   };
 
   const handleOpenRegistration = () => {
-    setIsRegistrationModal(true); // ✅ тут була помилка — не вмикалося реєстраційне вікно
+    setIsRegistrationModal(true); 
     setIsModalOpen(true);
   };
 
@@ -35,7 +35,7 @@ const handleLogout = () => {
   dispatch(logout())
     .unwrap()
     .then(() => {
-      navigate("/"); // 🔁 перенаправляє на головну (або на будь-який потрібний маршрут)
+      navigate("/"); 
     })
     .catch((error) => {
       toast.error("Logout failed");
@@ -101,7 +101,7 @@ const handleLogout = () => {
       {isModalOpen && isRegistrationModal && (
         <RegistrationForm
           isOpen={isModalOpen}
-          onClose={handleCloseModal} // Pass handleCloseModal instead of setModalOpen
+          onClose={handleCloseModal} 
         />
       )}
     </div>
